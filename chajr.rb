@@ -149,7 +149,7 @@ class Chajr < Formula
 
   def prettier_template; <<~EOS
   {
-    "trailingComma": "es5",
+    "trailingComma": "es5"
   }
   EOS
   end
@@ -265,6 +265,7 @@ class Chajr < Formula
     const usersRouter = require('./routes/users');
 
     require("./config/database");
+    require('dotenv').config();
 
     const app = express();
 
@@ -359,6 +360,8 @@ class Chajr < Formula
     router.get('/', function(req, res, next) {
       res.send('A place for users');
     });
+
+    module.exports = router;
   EOS
   end
 
