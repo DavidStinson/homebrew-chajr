@@ -427,7 +427,7 @@ class Chajr < Formula
         "http-errors": "~1.6.3",
         "mongoose": "~5.9.2",
         "morgan": "~1.9.1"
-      },
+      }
     }
   EOS
   end
