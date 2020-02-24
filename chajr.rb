@@ -374,7 +374,7 @@ class Chajr < Formula
     });
 
     module.exports = router;
-    EOS
+  EOS
   end
 
   def node_views_tktks_index_template; <<~EOS
