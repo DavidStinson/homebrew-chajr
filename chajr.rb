@@ -1,8 +1,8 @@
 class Chajr < Formula
   desc "chajr (pronounced chair) is a bash script for getting Css, Html, And Javascript Ready."
   homepage "https://github.com/DavidStinson/chajr"
-  url "https://github.com/DavidStinson/chajr/archive/v1.1.0.tar.gz"
-  sha256 "0e9fd7fbe7979eb149f67cfd8addac01007f826f1d3250199c6505d1fd094da5"
+  url "https://github.com/DavidStinson/chajr/archive/v1.1.1.tar.gz"
+  sha256 "1cba53676ce4278c09237db95c86c04d3198fd3f9681c008eda3be9ade34ad70"
 
   bottle :unneeded
 
@@ -31,51 +31,66 @@ class Chajr < Formula
     end
 
     # Node, Express, and MangoDB chajr
-    if !(File.exist?((etc/"chajr/node/envTemplate.txt"))) then
-      (etc/"chajr/node/envTemplate.txt").write env_template
-    end
-
+    # www
     if !(File.exist?((etc/"chajr/node/bin/wwwTemplate.txt"))) then
-      (etc/"chajr/node/bin/wwwTemplate.txt").write www_template
+      (etc/"chajr/node/bin/wwwTemplate.txt").write node_www_template
+    end
+    
+    # .env
+    if !(File.exist?((etc/"chajr/node/envTemplate.txt"))) then
+      (etc/"chajr/node/envTemplate.txt").write node_env_template
     end
 
+    # database 
+    if !(File.exist?((etc/"chajr/node/config/dbTemplate.txt"))) then
+      (etc/"chajr/node/config/dbTemplate.txt").write node_db_template
+    end
+    
+    # server.js
+    if !(File.exist?((etc/"chajr/node/serverTemplate.txt"))) then
+      (etc/"chajr/node/serverTemplate.txt").write node_server_template
+    end
+
+    # controllers
     if !(File.exist?((etc/"chajr/node/controllers/controllersTemplate.txt"))) then
-      (etc/"chajr/node/controllers/controllersTemplate.txt").write controllers_template
+      (etc/"chajr/node/controllers/controllersTemplate.txt").write node_controllers_template
     end
 
+    # models
     if !(File.exist?((etc/"chajr/node/models/modelTemplate.txt"))) then
-      (etc/"chajr/node/models/modelTemplate.txt").write model_template
+      (etc/"chajr/node/models/modelTemplate.txt").write node_model_template
     end
 
+    # public/css
     if !(File.exist?((etc/"chajr/node/public/cssTemplate.txt"))) then
       (etc/"chajr/node/public/cssTemplate.txt").write css_template
     end
 
     # routes
     if !(File.exist?((etc/"chajr/node/routes/routesTktksTemplate.txt"))) then
-      (etc/"chajr/node/routes/routesTktksTemplate.txt").write routes_tktks_template
+      (etc/"chajr/node/routes/routesTktksTemplate.txt").write node_routes_tktks_template
     end
     if !(File.exist?((etc/"chajr/node/routes/routesUsersTemplate.txt"))) then
-      (etc/"chajr/node/routes/routesUsersTemplate.txt").write routes_users_template
+      (etc/"chajr/node/routes/routesUsersTemplate.txt").write node_routes_users_template
     end
     if !(File.exist?((etc/"chajr/node/routes/routesIndexTemplate.txt"))) then
-      (etc/"chajr/node/routes/routesIndexTemplate.txt").write routes_index_template
+      (etc/"chajr/node/routes/routesIndexTemplate.txt").write node_routes_index_template
     end
 
     # views
     if !(File.exist?((etc/"chajr/node/views/viewsTktksIndexTemplate.txt"))) then
-      (etc/"chajr/node/views/viewsTktksIndexTemplate.txt").write views_tktks_index_template
+      (etc/"chajr/node/views/viewsTktksIndexTemplate.txt").write node_views_tktks_index_template
     end
     if !(File.exist?((etc/"chajr/node/views/viewsIndexTemplate.txt"))) then
-      (etc/"chajr/node/views/viewsIndexTemplate.txt").write views_index_template
+      (etc/"chajr/node/views/viewsIndexTemplate.txt").write node_views_index_template
     end
     if !(File.exist?((etc/"chajr/node/views/viewsErrorTemplate.txt"))) then
-      (etc/"chajr/node/views/viewsErrorTemplate.txt").write views_error_template
+      (etc/"chajr/node/views/viewsErrorTemplate.txt").write node_views_error_template
     end
 
     # package.json
     if !(File.exist?((etc/"chajr/node/packageJsonTemplate.txt"))) then
-      (etc/"chajr/node/packageJsonTemplate.txt").write packageJson_template
+      (etc/"chajr/node/packageJsonTemplate.txt").write node_packageJson_template
     end
 
 
@@ -139,14 +154,14 @@ class Chajr < Formula
   EOS
   end
   
-  def www_template; <<~EOS
+  def node_www_template; <<~EOS
   #!/usr/bin/env node
 
   /**
   * Module dependencies.
   */
 
-  const app = require('../sever');
+  const app = require('../server');
   const debug = require('debug')('test:server');
   const http = require('http');
 
@@ -233,61 +248,61 @@ class Chajr < Formula
   EOS
   end
 
-  def env_template; <<~EOS
+  def node_env_template; <<~EOS
     PORT=3000
   EOS
   end
   
-  def server_template; <<~EOS
-    const createError = require('http-errors');
-    const express = require('express');
-    const path = require('path');
-    const cookieParser = require('cookie-parser');
-    const logger = require('morgan');
-    
-    require('./config/database')
-    require('dovenv').config();
-    
-    const indexRouter = require('./routes/index');
-    const tktksRouter = require('./routes/tktks');
+  def node_server_template; <<~EOS
+    const createError = require("http-errors");
+    const express = require("express");
+    const path = require("path");
+    const cookieParser = require("cookie-parser");
+    const logger = require("morgan");
+
+    const indexRouter = require("./routes/index");
+    const tktksRouter = require("./routes/tktks");
     const usersRouter = require('./routes/users');
-    
+
+    require("./config/database");
+
     const app = express();
-    
+
     // view engine setup
-    app.set('views', path.join(__dirname, 'views'));
-    app.set('view engine', 'ejs');
-    
-    app.use(logger('dev'));
+    app.set("views", path.join(__dirname, "views"));
+    app.set("view engine", "ejs");
+
+    app.use(logger("dev"));
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
     app.use(cookieParser());
-    app.use(express.static(path.join(__dirname, 'public')));
-    
-    app.use('/', indexRouter);
-    app.use('/tktks', tktksRouter);
-    
+    app.use(express.static(path.join(__dirname, "public")));
+
+    app.use("/", indexRouter);
+    app.use("/tktks", tktksRouter);
+    app.use('/users', usersRouter);
+
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
       next(createError(404));
     });
-    
+
     // error handler
     app.use(function(err, req, res, next) {
       // set locals, only providing error in development
       res.locals.message = err.message;
-      res.locals.error = req.app.get('env') === 'development' ? err : {};
-    
+      res.locals.error = req.app.get("env") === "development" ? err : {};
+
       // render the error page
       res.status(err.status || 500);
-      res.render('error');
+      res.render("error");
     });
-    
+
     module.exports = app;
   EOS
   end
 
-  def db_template; <<~EOS
+  def node_db_template; <<~EOS
     const mongoose = require('mongoose');
 
     mongoose.connect('mongodb://localhost/tktks', {
@@ -298,7 +313,7 @@ class Chajr < Formula
   EOS
   end
 
-  def controllers_template; <<~EOS
+  def node_controllers_template; <<~EOS
     const Tktk = require("../models/tktk");
 
     module.exports = {
@@ -314,7 +329,7 @@ class Chajr < Formula
   EOS
   end
 
-  def model_template; <<~EOS
+  def node_model_template; <<~EOS
     const mongoose = require("mongoose");
     const Schema = mongoose.Schema;
 
@@ -326,7 +341,7 @@ class Chajr < Formula
   EOS
   end
 
-  def routes_tktks_template; <<~EOS
+  def node_routes_tktks_template; <<~EOS
     const express = require("express");
     const router = express.Router();
     const tktksCtrl = require("../controllers/tktks");
@@ -337,7 +352,7 @@ class Chajr < Formula
   EOS
   end
 
-  def routes_users_template; <<~EOS
+  def node_routes_users_template; <<~EOS
     const express = require("express");
     const router = express.Router();
 
@@ -347,7 +362,7 @@ class Chajr < Formula
   EOS
   end
 
-  def routes_index_template; <<~EOS
+  def node_routes_index_template; <<~EOS
     const express = require('express');
     const router = express.Router();
 
@@ -359,7 +374,7 @@ class Chajr < Formula
     EOS
   end
 
-  def views_tktks_index_template; <<~EOS
+  def node_views_tktks_index_template; <<~EOS
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -375,7 +390,7 @@ class Chajr < Formula
   EOS
   end
 
-  def views_index_template; <<~EOS
+  def node_views_index_template; <<~EOS
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -392,7 +407,7 @@ class Chajr < Formula
   EOS
   end
 
-  def views_error_template; <<~EOS
+  def node_views_error_template; <<~EOS
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -410,7 +425,7 @@ class Chajr < Formula
   EOS
   end
 
-  def packageJson_template; <<~EOS
+  def node_packageJson_template; <<~EOS
     {
       "name": "tktks",
       "main": "./bin/www",
