@@ -260,12 +260,13 @@ class Chajr < Formula
     const cookieParser = require("cookie-parser");
     const logger = require("morgan");
 
+    require('dotenv').config();
+
     const indexRouter = require("./routes/index");
     const tktksRouter = require("./routes/tktks");
     const usersRouter = require('./routes/users');
 
     require("./config/database");
-    require('dotenv').config();
 
     const app = express();
 
