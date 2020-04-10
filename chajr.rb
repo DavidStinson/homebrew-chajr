@@ -1,8 +1,8 @@
 class Chajr < Formula
   desc "chajr (pronounced chair) is a bash script for getting Css, Html, And Javascript Ready."
   homepage "https://github.com/DavidStinson/chajr"
-  url "https://github.com/DavidStinson/chajr/archive/V1.2.1.tar.gz"
-  sha256 "f392c0c08c3f052189ed62213fb1e3dd7f66a26566340808c443b340a35934f4"
+  url "https://github.com/DavidStinson/chajr/archive/V1.2.2.tar.gz"
+  sha256 "36db5f51ac2ae02500bb55d93b5f1dbe3475ecef25510fd2e72d9df54ab0f021"
 
   bottle :unneeded
 
@@ -666,7 +666,7 @@ class Chajr < Formula
   import React, { Component } from 'react';
   import { Link } from 'react-router-dom';
   import './LoginPage.css';
-  import userAPI from '../../services/user-api';
+  import * as userAPI from '../../services/user-api';
   
   class LoginPage extends Component {
     
@@ -974,12 +974,7 @@ class Chajr < Formula
 
   const BASE_URL = '/api/tktks/';
   
-  export default {
-    index,
-    create
-  };
-  
-  function index() {
+  export function index() {
     const options = {
       method: 'GET',
       headers: {
@@ -989,7 +984,7 @@ class Chajr < Formula
     return fetch(BASE_URL, options).then(res => res.json());
   }
   
-  function create(score) {
+  export function create(score) {
     const options = {
       method: 'POST',
       headers: {
@@ -1009,7 +1004,7 @@ class Chajr < Formula
 
   const BASE_URL = '/api/users/';
   
-  function signup(user) {
+  export function signup(user) {
     return fetch(BASE_URL + 'signup', {
       method: 'POST',
       headers: new Headers({'Content-Type': 'application/json'}),
@@ -1026,15 +1021,15 @@ class Chajr < Formula
     //.then((token) => token.token);
   }
   
-  function getUser() {
+  export function getUser() {
     return tokenService.getUserFromToken();
   }
   
-  function logout() {
+  export function logout() {
     tokenService.removeToken();
   }
   
-  function login(creds) {
+  export function login(creds) {
     return fetch(BASE_URL + 'login', {
       method: 'POST',
       headers: new Headers({'Content-Type': 'application/json'}),
@@ -1047,13 +1042,6 @@ class Chajr < Formula
     })
     .then(({token}) => tokenService.setToken(token));
   }
-  
-  export default {
-    signup, 
-    getUser,
-    logout,
-    login
-  };
   EOS
   end
 
