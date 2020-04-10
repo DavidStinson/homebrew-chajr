@@ -1,7 +1,7 @@
 class Chajr < Formula
   desc "chajr (pronounced chair) is a bash script for getting Css, Html, And Javascript Ready."
   homepage "https://github.com/DavidStinson/chajr"
-  url "https://github.com/DavidStinson/chajr/archive/v1.2.0.tar.gz"
+  url "https://github.com/DavidStinson/chajr/archive/V1.2.0.tar.gz"
   sha256 "70af62c83b073ba6e591e17f910e9cb315aea82e2a57f86a95ea282cda9b02f0"
 
   bottle :unneeded
