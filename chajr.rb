@@ -8,10 +8,6 @@ class Chajr < Formula
 
   def install
     bin.install "chajr"
-    system "./configure", "--disable-debug",
-                          "--disable-dependency-tracking",
-                          "--disable-silent-rules",
-                          "--prefix=#{prefix}"
   end
 
   def post_install
