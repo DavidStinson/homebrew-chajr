@@ -205,7 +205,6 @@ class Chajr < Formula
   def readme_template; <<~EOS
   EOS
   end
-
   def html_template; <<~EOS
     <!DOCTYPE html>
     <html lang="en">
@@ -233,23 +232,10 @@ class Chajr < Formula
 
   def js_template; <<~EOS
     /*------------------------- Variables and Constants -------------------------*/
-
-
-
     /*------------------------ Classes and Objects ------------------------------*/
-
-
-
     /*---------------------------------- Cache ----------------------------------*/
-
-
-
     /*----------------------------- Event Listeners -----------------------------*/
-
-
-
     /*-------------------------------- Functions --------------------------------*/
-
   EOS
   end
 
@@ -365,7 +351,6 @@ class Chajr < Formula
 
   def mern_db_template; <<~EOS
   const mongoose = require('mongoose');
-
   mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true, 
     useCreateIndex: true, 
@@ -470,7 +455,6 @@ class Chajr < Formula
 
   def mern_controllers_tktks_template; <<~EOS
   var Tktk = require('../models/tktk');
-
   module.exports = {
     index,
     create
@@ -786,7 +770,6 @@ class Chajr < Formula
 
   def mern_tktk_secret_page_template; <<~EOS
   import React from 'react';
-
   const TktksSecretPage = () => {
     return (
       <React.Fragment>
@@ -955,7 +938,6 @@ class Chajr < Formula
 
   def mern_tktk_component_template; <<~EOS
   import React from 'react';
-
   const Tktk = () => {
     return (
       <React.Fragment>
@@ -971,7 +953,6 @@ class Chajr < Formula
 
   def mern_tktk_api_template; <<~EOS
   import tokenService from './tokenService';
-
   const BASE_URL = '/api/tktks/';
   
   export default {
@@ -1006,7 +987,6 @@ class Chajr < Formula
 
   def mern_user_api_template; <<~EOS
   import tokenService from './tokenService';
-
   const BASE_URL = '/api/users/';
   
   function signup(user) {
@@ -1102,69 +1082,52 @@ class Chajr < Formula
   # MEN Templates --------------------------------------------------------------
   def node_www_template; <<~EOS
   #!/usr/bin/env node
-
   /**
   * Module dependencies.
   */
-
   const app = require('../server');
   const debug = require('debug')('test:server');
   const http = require('http');
-
   /**
   * Get port from environment and store in Express.
   */
-
   const port = normalizePort(process.env.PORT || '3000');
   app.set('port', port);
-
   /**
   * Create HTTP server.
   */
-
   const server = http.createServer(app);
-
   /**
   * Listen on provided port, on all network interfaces.
   */
-
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
-
   /**
   * Normalize a port into a number, string, or false.
   */
-
   function normalizePort(val) {
     const port = parseInt(val, 10);
-
     if (isNaN(port)) {
       // named pipe
       return val;
     }
-
     if (port >= 0) {
       // port number
       return port;
     }
-
     return false;
   }
-
   /**
   * Event listener for HTTP server "error" event.
   */
-
   function onError(error) {
     if (error.syscall !== 'listen') {
       throw error;
     }
-
     const bind = typeof port === 'string'
       ? 'Pipe ' + port
       : 'Port ' + port;
-
     // handle specific listen errors with friendly messages
     switch (error.code) {
       case 'EACCES':
@@ -1179,11 +1142,9 @@ class Chajr < Formula
         throw error;
     }
   }
-
   /**
   * Event listener for HTTP server "listening" event.
   */
-
   function onListening() {
     const addr = server.address();
     const bind = typeof addr === 'string'
@@ -1205,54 +1166,42 @@ class Chajr < Formula
     const path = require("path");
     const cookieParser = require("cookie-parser");
     const logger = require("morgan");
-
     require('dotenv').config();
-
     const indexRouter = require("./routes/index");
     const tktksRouter = require("./routes/tktks");
     const usersRouter = require('./routes/users');
-
     require("./config/database");
-
     const app = express();
-
     // view engine setup
     app.set("views", path.join(__dirname, "views"));
     app.set("view engine", "ejs");
-
     app.use(logger("dev"));
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
     app.use(cookieParser());
     app.use(express.static(path.join(__dirname, "public")));
-
     app.use("/", indexRouter);
     app.use("/tktks", tktksRouter);
     app.use('/users', usersRouter);
-
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
       next(createError(404));
     });
-
     // error handler
     app.use(function(err, req, res, next) {
       // set locals, only providing error in development
       res.locals.message = err.message;
       res.locals.error = req.app.get("env") === "development" ? err : {};
-
       // render the error page
       res.status(err.status || 500);
       res.render("error");
     });
-
     module.exports = app;
   EOS
   end
 
   def node_db_template; <<~EOS
     const mongoose = require('mongoose');
-
     mongoose.connect('mongodb://localhost/tktks', {
       useNewUrlParser: true, 
       useCreateIndex: true, 
@@ -1263,11 +1212,9 @@ class Chajr < Formula
 
   def node_controllers_template; <<~EOS
     const Tktk = require("../models/tktk");
-
     module.exports = {
       index
     };
-
     function index(req, res) {
       Tktk.find({}, function(err, tktks) {
         if (err) return next(err);
@@ -1280,11 +1227,8 @@ class Chajr < Formula
   def node_model_template; <<~EOS
     const mongoose = require("mongoose");
     const Schema = mongoose.Schema;
-
     const tktkSchema = new Schema({
-
     });
-
     module.exports = mongoose.model("Tktk", tktkSchema);
   EOS
   end
@@ -1293,9 +1237,7 @@ class Chajr < Formula
     const express = require("express");
     const router = express.Router();
     const tktksCtrl = require("../controllers/tktks");
-
     router.get("/", tktksCtrl.index);
-
     module.exports = router;
   EOS
   end
@@ -1303,11 +1245,9 @@ class Chajr < Formula
   def node_routes_users_template; <<~EOS
     const express = require("express");
     const router = express.Router();
-
     router.get('/', function(req, res, next) {
       res.send('A place for users');
     });
-
     module.exports = router;
   EOS
   end
@@ -1315,11 +1255,9 @@ class Chajr < Formula
   def node_routes_index_template; <<~EOS
     const express = require('express');
     const router = express.Router();
-
     router.get('/', function(req, res, next) {
       res.render('index', { title: 'Tktk Index' });
     });
-
     module.exports = router;
   EOS
   end
