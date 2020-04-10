@@ -1,8 +1,8 @@
 class Chajr < Formula
   desc "chajr (pronounced chair) is a bash script for getting Css, Html, And Javascript Ready."
   homepage "https://github.com/DavidStinson/chajr"
-  url "https://github.com/DavidStinson/chajr/archive/V1.2.0.tar.gz"
-  sha256 "70af62c83b073ba6e591e17f910e9cb315aea82e2a57f86a95ea282cda9b02f0"
+  url "https://github.com/DavidStinson/chajr/archive/V1.2.1.tar.gz"
+  sha256 "f392c0c08c3f052189ed62213fb1e3dd7f66a26566340808c443b340a35934f4"
 
   bottle :unneeded
 
@@ -116,10 +116,10 @@ class Chajr < Formula
 
     # routes
     if !(File.exist?((etc/"chajr/mern/routes/apiTktksTemplate.txt"))) then
-      (etc/"chajr/mern/routes/routeApiTktksTemplate.txt").write mern_routes_api_tktks_template
+      (etc/"chajr/mern/routes/apiTktksTemplate.txt").write mern_routes_api_tktks_template
     end
     if !(File.exist?((etc/"chajr/mern/routes/apiUsersTemplate.txt"))) then
-      (etc/"chajr/mern/routes/routeApiUsersTemplate.txt").write mern_routes_api_users_template
+      (etc/"chajr/mern/routes/apiUsersTemplate.txt").write mern_routes_api_users_template
     end
 
     # config
